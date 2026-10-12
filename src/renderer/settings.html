@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
+    />
+    <title>Impostazioni - Pixel Pet</title>
+    <link rel="stylesheet" href="settings.css" />
+  </head>
+  <body>
+    <header class="top">
+      <canvas id="preview" class="preview" width="41" height="46"></canvas>
+      <div>
+        <h1 id="title">Impostazioni</h1>
+        <p class="sub">Il tuo compagno in pixel art.</p>
+      </div>
+    </header>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="pet" type="button">Pet</button>
+      <button class="tab" data-tab="brain" type="button">Cervello</button>
+      <button class="tab" data-tab="behavior" type="button">Comportamento</button>
+      <button class="tab" data-tab="vision" type="button">Visione</button>
+      <button class="tab" data-tab="memory" type="button">Memoria</button>
+    </nav>
+
+    <main>
+      <section class="panel active" data-panel="pet">
+        <div class="field">
+          <span>Che pet vuoi?</span>
+          <div id="species" class="species"></div>
+        </div>
+        <div class="field">
+          <span>Colore</span>
+          <div id="themes" class="themes"></div>
+        </div>
+        <div class="field">
+          <span>Sprite</span>
+          <div class="row">
+            <select id="spritePack" aria-label="Sprite del pet"></select>
+            <button id="exportSprites" type="button" class="secondary">Crea un pacchetto da disegnare</button>
+            <button id="openSprites" type="button" class="secondary">Apri la cartella</button>
+          </div>
+          <small id="spritesHint" class="hint"></small>
+        </div>
+        <label class="field">
+          <span>Nome del pet</span>
+          <input id="petName" type="text" maxlength="30" />
+        </label>
+        <label class="field">
+          <span>Come ti chiami?</span>
+          <input id="userName" type="text" maxlength="50" placeholder="Facoltativo: lo scoprirà anche parlando con te" />
+        </label>
+        <label class="field">
+          <span>Dimensione <output id="scaleOut"></output></span>
+          <input id="scale" type="range" min="2" max="5" step="1" />
+        </label>
+        <label class="field">
+          <span>Lingua in cui parla</span>
+          <input id="language" type="text" maxlength="40" />
+        </label>
+        <label class="field">
+          <span>Personalità (facoltativo)</span>
+          <textarea id="personality" rows="3" maxlength="2000" placeholder="Es.: un po' sarcastico, appassionato di caffè, mi chiama &quot;capo&quot;…"></textarea>
+        </label>
+      </section>
+
+      <section class="panel" data-panel="brain">
+        <p class="note">
+          Il pet può pensare con servizi diversi: a pagamento (Claude), gratuiti con limiti (Gemini, Groq, OpenRouter) o
+          interamente sul tuo PC (Ollama). Puoi usarne uno per le conversazioni e un altro, magari gratuito, per i momenti
+          in cui decide da solo cosa fare.
+        </p>
+        <div class="choice">
+          <h2>Conversazioni</h2>
+          <div class="row">
+            <select id="chatProvider" aria-label="Servizio per le conversazioni"></select>
+            <input id="chatModel" type="text" list="chatModels" placeholder="modello" aria-label="Modello per le conversazioni" />
+            <button id="chatDetect" type="button" class="secondary">Rileva modelli</button>
+          </div>
+          <datalist id="chatModels"></datalist>
+          <small id="chatHint" class="hint"></small>
+        </div>
+        <div class="choice">
+          <h2>Momenti autonomi</h2>
+          <div class="row">
+            <select id="autonomousProvider" aria-label="Servizio per i momenti autonomi"></select>
+            <input id="autonomousModel" type="text" list="autonomousModels" placeholder="modello" aria-label="Modello per i momenti autonomi" />
+            <button id="autonomousDetect" type="button" class="secondary">Rileva modelli</button>
+          </div>
+          <datalist id="autonomousModels"></datalist>
+          <small id="autonomousHint" class="hint"></small>
+        </div>
+        <div class="row">
+          <button id="test" type="button" class="secondary">Prova la connessione</button>
+        </div>
+        <ul id="testResult" class="results"></ul>
+
+        <h2>Servizi e chiavi</h2>
+        <div id="providers" class="providers"></div>
+      </section>
+
+      <section class="panel" data-panel="behavior">
+        <label class="field">
+          <span>Quanto prende l'iniziativa</span>
+          <select id="talkativeness">
+            <option value="0">Silenzioso: parla solo se lo interpelli (nessun momento autonomo)</option>
+            <option value="1">Discreto: un momento autonomo ogni ~15 minuti</option>
+            <option value="2">Socievole: ogni ~6 minuti</option>
+            <option value="3">Chiacchierone: ogni ~3 minuti</option>
+          </select>
+        </label>
+        <label class="check"><input id="doNotDisturb" type="checkbox" /> Non disturbare (niente iniziative né fumetti spontanei)</label>
+        <label class="check"><input id="followCursorScreen" type="checkbox" /> Seguimi quando lavoro su un altro schermo</label>
+        <label class="check"><input id="climbWindows" type="checkbox" /> Arrampicati sulle finestre e riposati sopra</label>
+        <label class="check"><input id="chaseCursor" type="checkbox" /> Gioca a prendere il mouse quando lo agito vicino a te</label>
+        <label class="field">
+          <span>Budget giornaliero per Claude (USD, 0 = nessun limite)</span>
+          <input id="dailyBudgetUsd" type="number" min="0" max="1000" step="0.5" />
+          <small id="spend" class="hint"></small>
+        </label>
+        <label class="field">
+          <span>Scorciatoia per parlargli</span>
+          <input id="hotkey" type="text" maxlength="60" placeholder="Control+Alt+P" />
+          <small class="hint">Formato Electron, ad esempio <code>Control+Alt+P</code> o <code>Alt+Shift+Space</code>.</small>
+        </label>
+        <label class="check"><input id="launchAtLogin" type="checkbox" /> Avvia con Windows</label>
+      </section>
+
+      <section class="panel" data-panel="vision">
+        <label class="check"><input id="visionEnabled" type="checkbox" /> Può guardare lo schermo</label>
+        <p class="note">
+          Quando guarda, uno screenshot dello schermo viene inviato al servizio di IA scelto (con Ollama resta sul tuo PC).
+          Se lavori con dati riservati (codice aziendale, clienti, mail…) verifica che sia consentito, oppure disattiva la
+          visione o metti il pet in "Non disturbare" quando serve. Per vedere, il modello deve supportare le immagini.
+        </p>
+        <label class="field">
+          <span>Intervallo minimo tra un'occhiata spontanea e l'altra (secondi)</span>
+          <input id="visionMinIntervalSec" type="number" min="30" max="3600" step="10" />
+        </label>
+        <label class="field">
+          <span>Risoluzione degli screenshot</span>
+          <select id="visionMaxWidth">
+            <option value="1024">1024 px (più leggero)</option>
+            <option value="1280">1280 px (consigliato)</option>
+            <option value="1568">1568 px (testo più leggibile)</option>
+          </select>
+        </label>
+        <label class="check"><input id="hideFromCapture" type="checkbox" /> Nascondi il pet negli screenshot e nelle condivisioni dello schermo</label>
+      </section>
+
+      <section class="panel" data-panel="memory">
+        <p class="note">Ciò che il pet ricorda di te. Puoi cancellare i singoli ricordi, oppure chiedergli a voce di dimenticare qualcosa.</p>
+        <h2>Ricordi</h2>
+        <ul id="facts" class="list"></ul>
+        <h2>Promemoria</h2>
+        <ul id="reminders" class="list"></ul>
+        <h2>Diario</h2>
+        <ul id="diary" class="list"></ul>
+        <div class="row">
+          <button id="openData" type="button" class="secondary">Apri la cartella dei dati</button>
+          <button id="clearMemory" type="button" class="danger">Dimentica tutto</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bottom">
+      <span id="status" class="hint"></span>
+      <button id="save" type="button" class="primary">Salva</button>
+    </footer>
+
+    <script src="settings.js"></script>
+  </body>
+</html>

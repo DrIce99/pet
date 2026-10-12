@@ -1,0 +1,27 @@
+{
+  "name": "pixel-pet",
+  "productName": "Pixel Pet",
+  "version": "0.1.0",
+  "description": "Un compagno in pixel art che vive sul desktop, guidato da Claude",
+  "private": true,
+  "main": "dist/main/main.js",
+  "scripts": {
+    "postinstall": "node node_modules/electron/install.js",
+    "build": "node build.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node build.mjs --tests && node --test \"dist/test/*.test.js\"",
+    "check": "npm run typecheck && npm test",
+    "start": "node build.mjs && node run.mjs",
+    "debug": "node build.mjs && node run.mjs --debug"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "koffi": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "electron": "^44.7.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  }
+}

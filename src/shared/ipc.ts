@@ -1,0 +1,36 @@
+// IPC channel names shared by the main process and the preloads.
+export const IPC = {
+  // main -> pet window
+  layout: "pet:layout",
+  visual: "pet:visual",
+  look: "pet:look",
+  effect: "pet:effect",
+  bubbleStart: "pet:bubble-start",
+  bubbleChunk: "pet:bubble-chunk",
+  bubbleEnd: "pet:bubble-end",
+  bubbleHide: "pet:bubble-hide",
+  inputOpen: "pet:input-open",
+  inputClose: "pet:input-close",
+  spritePack: "pet:sprite-pack",
+  // pet window -> main
+  ready: "pet:ready",
+  interactive: "pet:interactive",
+  click: "pet:click",
+  petted: "pet:petted",
+  dragStart: "pet:drag-start",
+  dragEnd: "pet:drag-end",
+  contextMenu: "pet:context-menu",
+  send: "pet:send",
+  closeInput: "pet:close-input",
+  bubbleClicked: "pet:bubble-clicked",
+  // settings window <-> main (invoke/handle)
+  settingsLoad: "settings:load",
+  settingsSave: "settings:save",
+  settingsTest: "settings:test",
+  settingsListModels: "settings:list-models",
+  settingsForget: "settings:forget",
+  settingsClear: "settings:clear",
+  settingsOpenData: "settings:open-data",
+  settingsExportSprites: "settings:export-sprites",
+  settingsOpenSprites: "settings:open-sprites",
+} as const;
